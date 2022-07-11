@@ -47,7 +47,7 @@
                   "data/gametests/src/index.ts"
                 ],
                 "external": [
-                  "./config.js"
+                  "./explosion-config.js"
                 ],
                 "minify": true
               },

@@ -18,8 +18,14 @@
         "rotate": "animation.entity_block.rotate"
       },
       "scripts": {
-        "initialize": ["v.x_rot = 0; v.z_rot = 0; v.rot_rate = 25;"],
-        "animate": ["scale", {"rotate": "q.is_ignited"}]
+        "initialize": [
+          "v.x_rot = 0; v.z_rot = 0; v.rot_rate = 25; v.x_prev_pos = q.position(0); v.z_prev_pos = q.position(2);"
+        ],
+        "pre_animation": [
+          "v.z_rot = (v.z_rot) + (q.position(2) - v.z_prev_pos) * v.rot_rate; v.z_prev_pos = q.position(2);",
+          "v.x_rot = (v.x_rot) + (q.position(0) - v.x_prev_pos) * v.rot_rate; v.x_prev_pos = q.position(0);"
+        ],
+        "animate": ["scale", { "rotate": "q.is_ignited" }]
       },
       "enable_attachables": true
     }

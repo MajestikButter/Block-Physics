@@ -42,7 +42,7 @@ function createEntityBlock(block: Block) {
   blockEnt.addTag(`$blockId:${block.id}`);
   blockEnt.addTag("$entityBlockFromTNT");
   if (rotateWithVelocity) blockEnt.triggerEvent("rotate");
-  blockEnt.triggerEvent("physics")
+  blockEnt.triggerEvent("physics");
 
   let blockId = block.id;
   if (blockId.startsWith("minecraft:lit_"))
