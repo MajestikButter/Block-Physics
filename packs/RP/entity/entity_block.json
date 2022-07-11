@@ -1,0 +1,27 @@
+{
+  "format_version": "1.19.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "bp:entity_block",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "geometry": {
+        "default": "geometry.entity_block"
+      },
+      "textures": {
+        "default": "textures/entity/armor_stand"
+      },
+      "render_controllers": ["controller.render.default"],
+      "animations": {
+        "scale": "animation.entity_block.scale",
+        "rotate": "animation.entity_block.rotate"
+      },
+      "scripts": {
+        "initialize": ["v.x_rot = 0; v.z_rot = 0; v.rot_rate = 25;"],
+        "animate": ["scale", {"rotate": "q.is_ignited"}]
+      },
+      "enable_attachables": true
+    }
+  }
+}

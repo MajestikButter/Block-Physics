@@ -1,0 +1,54 @@
+{
+  "format_version": "1.19.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "bp:entity_block_collision",
+      "is_spawnable": false,
+      "is_summonable": false,
+      "runtime_identifier": "minecraft:boat"
+    },
+    "component_groups": {
+      "despawn": { "minecraft:instant_despawn": {} }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": ["inanimate", "entity_block", "entity_block_collision"]
+      },
+      "minecraft:physics": {},
+      "minecraft:collision_box": {
+        "height": 0.97,
+        "width": 0.97
+      },
+      "minecraft:custom_hit_test": {
+        "hitboxes": [
+          {
+            "width": 0,
+            "height": 0,
+            "pivot": [0, 100, 0]
+          }
+        ]
+      },
+      "minecraft:environment_sensor": {
+        "triggers": [
+          {
+            "event": "despawn",
+            "filters": {
+              "test": "is_riding",
+              "value": false
+            }
+          }
+        ]
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "deals_damage": false
+          }
+        ]
+      }
+    },
+    "events": {
+      "despawn": { "add": { "component_groups": ["despawn"] } }
+    }
+  }
+}

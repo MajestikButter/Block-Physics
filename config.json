@@ -1,0 +1,66 @@
+{
+  "author": "MajestikButter",
+  "name": "Explosion-Physics",
+  "packs": {
+    "behaviorPack": "./packs/BP",
+    "resourcePack": "./packs/RP"
+  },
+  "regolith": {
+    "dataPath": "./packs/data",
+    "filterDefinitions": {
+      "gametests": {
+        "url": "github.com/Bedrock-OSS/regolith-filters",
+        "version": "1.1.0"
+      }
+    },
+    "profiles": {
+      "build": {
+        "export": {
+          "target": "local"
+        },
+        "filters": [
+          {
+            "profile": "shared"
+          }
+        ]
+      },
+      "default": {
+        "export": {
+          "target": "development"
+        },
+        "filters": [
+          {
+            "profile": "shared"
+          }
+        ]
+      },
+      "shared": {
+        "export": {
+          "target": "local"
+        },
+        "filters": [
+          {
+            "filter": "gametests",
+            "settings": {
+              "buildOptions": {
+                "entryPoints": [
+                  "data/gametests/src/index.ts"
+                ],
+                "external": [
+                  "./config.js"
+                ],
+                "minify": true
+              },
+              "moduleUUID": "b8622f43-a353-4f04-ba84-d9f4f226af90",
+              "modules": [
+                "mojang-minecraft",
+                "mojang-minecraft-ui"
+              ],
+              "outfile": "BP/scripts/index.js"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

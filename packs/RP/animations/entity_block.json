@@ -1,0 +1,27 @@
+{
+  "format_version": "1.19.0",
+  "animations": {
+    "animation.entity_block.scale": {
+      "loop": true,
+      "bones": {
+        "model": {
+          "position": [-10.865, 10.82, "-5.135+16"],
+          "scale": 2.675,
+          "rotation": [-20, -45, 0]
+        }
+      }
+    },
+    "animation.entity_block.rotate": {
+      "loop": true,
+      "bones": {
+        "root": {
+          "rotation": [
+            "v.z_rot = (v.z_rot ?? 0) + (q.position(2) - (v.z_prev_pos ?? q.position(2))) * v.rot_rate; v.z_prev_pos = q.position(2); return v.z_rot;",
+            0,
+            "v.x_rot = (v.x_rot ?? 0) + (q.position(0) - (v.x_prev_pos ?? q.position(0))) * v.rot_rate; v.x_prev_pos = q.position(0); return v.x_rot;"
+          ]
+        }
+      }
+    }
+  }
+}

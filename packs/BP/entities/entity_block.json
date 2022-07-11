@@ -1,0 +1,137 @@
+{
+  "format_version": "1.19.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "bp:entity_block",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "animations": {
+        "despawn_timer": "animation.entity_block.despawn_timer",
+        "ground_test": "animation.entity_block.ground_test"
+      },
+      "scripts": {
+        "animate": [
+          { "despawn_timer": "q.is_stunned" },
+          {
+            "ground_test": "t.move_speed = math.sqrt(math.pow(q.position_delta(0), 2)+math.pow(q.position_delta(1), 2)+math.pow(q.position_delta(2), 2)); (q.is_on_ground && !q.is_illager_captain && q.is_baby && t.move_speed < 0.1) ? { v.ground_time = (v.ground_time ?? 0) + 1; return v.ground_time > 10; } : { v.ground_time = 0; return 0; };"
+          }
+        ]
+      }
+    },
+    "component_groups": {
+      "on_ground": { "minecraft:is_illager_captain": {} },
+      "despawn_on_ground": { "minecraft:is_sheared": {} },
+      "despawn": { "minecraft:instant_despawn": {} },
+      "stackable": { "minecraft:is_stackable": {} },
+      "_spawned": { "minecraft:is_baby": {} },
+      "_add_collision": {
+        "minecraft:addrider": {
+          "entity_type": "bp:entity_block_collision"
+        }
+      },
+      "collision": {
+        "minecraft:rideable": {
+          "family_types": ["entity_block_collision"],
+          "interact_text": "",
+          "pull_in_entities": false,
+          "rider_can_interact": false,
+          "seat_count": 1,
+          "seats": [
+            {
+              "position": [0, 0, 0],
+              "lock_rider_rotation": 0
+            }
+          ]
+        }
+      },
+      "despawn_timer": {
+        "minecraft:is_stunned": {}
+      },
+      "rotate": {
+        "minecraft:is_ignited": {}
+      }
+    },
+    "components": {
+      "minecraft:type_family": {
+        "family": ["inanimate", "entity_block"]
+      },
+      "minecraft:equipment": {},
+      "minecraft:physics": {},
+      "minecraft:collision_box": {
+        "height": 0.97,
+        "width": 0.97
+      },
+      // "minecraft:custom_hit_test": {
+      //   "hitboxes": [
+      //     {
+      //       "width": 0,
+      //       "height": 0,
+      //       "pivot": [0, 100, 0]
+      //     }
+      //   ]
+      // },
+      "minecraft:environment_sensor": {
+        "triggers": [
+          {
+            "event": "despawn",
+            "filters": {
+              "all_of": [
+                {
+                  "test": "has_component",
+                  "value": "minecraft:is_illager_captain"
+                },
+                {
+                  "test": "has_component",
+                  "value": "minecraft:is_sheared"
+                }
+              ]
+            }
+          },
+          {
+            "filters": {
+              "all_of": [
+                {
+                  "test": "rider_count",
+                  "operator": "<=",
+                  "value": 0
+                },
+                {
+                  "test": "has_component",
+                  "value": "minecraft:rideable"
+                }
+              ]
+            },
+            "event": "_add_collision"
+          }
+        ]
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "deals_damage": false
+          }
+        ]
+      },
+      "minecraft:timer": {
+        "time": 0.5,
+        "time_down_event": {
+          "event": "_spawned"
+        }
+      }
+    },
+    "events": {
+      "_spawned": { "add": { "component_groups": ["_spawned"] } },
+      "despawn": { "add": { "component_groups": ["despawn"] } },
+      "despawn_on_ground": {
+        "add": { "component_groups": ["despawn_on_ground"] }
+      },
+      "despawn_timer": { "add": { "component_groups": ["despawn_timer"] } },
+      "stackable": { "add": { "component_groups": ["stackable"] } },
+      "unstackable": { "remove": { "component_groups": ["stackable"] } },
+      "hit_ground": { "add": { "component_groups": ["on_ground"] } },
+      "collision": { "add": { "component_groups": ["collision"] } },
+      "_add_collision": { "add": { "component_groups": ["_add_collision"] } },
+      "rotate": { "add": { "component_groups": ["rotate"] } }
+    }
+  }
+}

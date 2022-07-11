@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@types/mojang-gametest": "^0.1.5",
+    "@types/mojang-minecraft": "^0.1.6",
+    "@types/mojang-minecraft-ui": "^0.1.0"
+  },
+  "scripts": {
+    "setup": "regolith install-all && npm i",
+    "run": "regolith run",
+    "run-build": "regolith run build",
+    "watch": "regolith watch",
+    "watch-build": "regolith watch build",
+    "auto-reload": "regolith-reload"
+  }
+}
