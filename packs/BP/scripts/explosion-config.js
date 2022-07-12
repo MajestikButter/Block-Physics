@@ -1,58 +1,71 @@
-/**
- * Enables or disables block explosion physics.
- */
-export const enabled = true;
+export const explosionConfig = {
+  /**
+   * Enables or disables block explosion physics.
+   */
+  enabled: true,
 
-/**
- * Determines whether to use simple math or slightly more complex
- * math to calculate how to launch the blocks.
- */
-export const simpleMath = true;
+  /**
+   * Determines whether to use simple math or slightly more complex
+   * math to calculate how to launch the blocks.
+   */
+  simpleMath: true,
 
-/**
- * Determines whether to place the block once it hits the ground.
- */
-export const placeWhenHitGround = true;
+  /**
+   * Determines whether to place the block once it hits the ground.
+   */
+  placeWhenHitGround: true,
 
-/**
- * Determines whether to drop the block item and be removed when it cannot be placed,
- * otherwise it will be kept in the world.
- * (this is only used when "placeWhenHitGround" is enabled).
- * Note: This will not drop the items from the block as if it was properly broken.
- * The drop may also not match what it was before becoming a block entity. (for example, andesite -> stone)
- */
-export const dropWhenUnplaceable = true;
+  /**
+   * Determines whether to drop the block item and be removed when it cannot be placed,
+   * otherwise it will be kept in the world.
+   * (this is only used when "placeWhenHitGround" is enabled).
+   * Note: This will not drop the items from the block as if it was properly broken.
+   * The drop may also not match what it was before becoming a block entity. (for example, andesite -> stone)
+   * Requires dotiledrops gamerule to be enabled.
+   */
+  dropWhenUnplaceable: false,
 
-/**
- * Determines whether to allow the block to collide with other entities,
- * this allows players and entities to stand on it. This may cause more
- * lag as a second entity is required per block.
- */
-export const collideWithEntities = false;
+  /**
+   * Determines whether to allow the block to collide with other entities,
+   * this allows players and entities to stand on it. This may cause more
+   * lag as a second entity is required per block.
+   */
+  collideWithEntities: false,
 
-/**
- * Determines whether to despawn the block after 5 seconds, if disabled,
- * the blocks will not despawn and will need to be removed via
- * `/event entity @e[type=bp:entity_block] despawn`.
- */
-export const despawnTimer = false;
+  /**
+   * Determines whether to despawn the block after 5 seconds, if disabled,
+   * the blocks will not despawn and will need to be removed via
+   * `/event entity @e[type=bp:entity_block] despawn`.
+   */
+  despawnTimer: true,
 
-/**
- * Modifies the vertical launch velocity of blocks. (this value is added to the vertical velocity)
- */
-export const additionalVerticalVelocity = 1.65;
+  /**
+   * Determines whether to rotate the blocks when they are moving.
+   */
+  rotateWithVelocity: true,
 
-/**
- * Modifies the vertical launch velocity of blocks. (the vertical velocity is multiplied by this value)
- */
-export const verticalVelocityModifier = 1;
+  /**
+   * Determines what blocks to ignore, this is helpful for ignoring any blocks that may have issues when being placed down.
+   */
+  ignoreBlocks: ["tnt", "*_door", "bed", "frame", "glowing_frame", "*_double_slab", "*_double_cut_copper_slab", "stonecutter"],
 
-/**
- * Modifies the horizontal launch velocity of blocks. (the horizontal velocity is multiplied by this value)
- */
-export const horizontalVelocityModifier = 0.4;
+  /**
+   * Determines what blocks to allow blocks to replace when being placed.
+   */
+  replaceBlocks: ["lava", "water", "air"],
 
-/**
- * Determines whether to rotate the blocks when they are moving.
- */
-export const rotateWithVelocity = true;
+  /**
+   * Modifies the vertical launch velocity of blocks. (this value is added to the vertical velocity)
+   */
+  additionalVerticalVelocity: 1.5,
+
+  /**
+   * Modifies the vertical launch velocity of blocks. (the vertical velocity is multiplied by this value)
+   */
+  verticalVelocityModifier: 1,
+
+  /**
+   * Modifies the horizontal launch velocity of blocks. (the horizontal velocity is multiplied by this value)
+   */
+  horizontalVelocityModifier: 0.6,
+};

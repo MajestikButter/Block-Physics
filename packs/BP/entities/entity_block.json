@@ -13,7 +13,7 @@
         "animate": [
           { "despawn_timer": "q.is_stunned" },
           {
-            "ground_test": "t.move_speed = math.sqrt(math.pow(q.position_delta(0), 2)+math.pow(q.position_delta(1), 2)+math.pow(q.position_delta(2), 2)); (q.is_on_ground && !q.is_illager_captain && q.is_baby && t.move_speed < 0.1) ? { v.ground_time = (v.ground_time ?? 0) + 1; return v.ground_time > 10; } : { v.ground_time = 0; return 0; };"
+            "ground_test": "t.move_speed = math.sqrt(math.pow(q.position_delta(0), 2)+math.pow(q.position_delta(1), 2)+math.pow(q.position_delta(2), 2)); (q.is_on_ground && !q.is_illager_captain && q.is_baby && (t.move_speed < 0.09)) ? { v.ground_time = (v.ground_time ?? 0) + 1; return v.ground_time > 7; } : { v.ground_time = 0; return 0; };"
           }
         ]
       }

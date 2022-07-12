@@ -11,54 +11,27 @@ import {
   Vector,
   world,
 } from "mojang-minecraft";
-import {
+import { createEntityBlock, getGamerules, isInList, setTimeout } from "./utils.js";
+
+import { explosionConfig } from "./explosion-config.js";
+let {
   additionalVerticalVelocity,
   collideWithEntities,
   despawnTimer,
   dropWhenUnplaceable,
   enabled,
   horizontalVelocityModifier,
+  ignoreBlocks,
   placeWhenHitGround,
+  replaceBlocks,
   rotateWithVelocity,
   simpleMath,
   verticalVelocityModifier,
-} from "./explosion-config.js";
-import { setTimeout } from "./utils.js";
+} = explosionConfig;
+ignoreBlocks = ignoreBlocks.map((v) => v.replace("minecraft:", ""));
+replaceBlocks = replaceBlocks.map((v) => v.replace("minecraft:", ""));
 
 const blockMap = new Map<Entity, BlockPermutation>();
-
-function createEntityBlock(block: Block) {
-  const dim = block.dimension;
-
-  const blockEnt = dim.spawnEntity(
-    "bp:entity_block",
-    new Location(block.x + 0.5, block.y + 0.5, block.z + 0.5)
-  );
-  blockEnt.triggerEvent("stackable");
-  if (collideWithEntities) blockEnt.triggerEvent("collision");
-  if (despawnTimer) blockEnt.triggerEvent("despawn_timer");
-
-  if (placeWhenHitGround) blockMap.set(blockEnt, block.permutation);
-  blockEnt.addTag(`$blockId:${block.id}`);
-  blockEnt.addTag("$entityBlockFromTNT");
-  if (rotateWithVelocity) blockEnt.triggerEvent("rotate");
-  blockEnt.triggerEvent("physics");
-
-  let blockId = block.id;
-  if (blockId.startsWith("minecraft:lit_"))
-    blockId = blockId.replace("minecraft:lit_", "");
-  else if (blockId.startsWith("minecraft:unlit_"))
-    blockId = blockId.replace("minecraft:unlit_", "");
-
-  setTimeout(() => {
-    try {
-      blockEnt.runCommand(
-        `replaceitem entity @s slot.weapon.mainhand 0 ${blockId}`
-      );
-    } catch {}
-  }, 1);
-  return blockEnt;
-}
 
 if (enabled) {
   world.events.beforeExplosion.subscribe((evd) => {
@@ -70,7 +43,7 @@ if (enabled) {
 
     const blocks = evd.impactedBlocks
       .map((v) => dim.getBlock(v))
-      .filter((v) => v.id !== "minecraft:tnt");
+      .filter((v) => !isInList(ignoreBlocks, v.id.replace("minecraft:", "")));
 
     const blockDist = new Map<Block, number>();
     const blockId = new Map<Block, string>();
@@ -112,17 +85,23 @@ if (enabled) {
         )
       );
 
-      createEntityBlock(block).setVelocity(vel);
+      const eBlock = createEntityBlock(
+        block.id,
+        block.dimension,
+        new Location(block.x + 0.5, block.y + 0.5, block.z + 0.5)
+      );
+
+      eBlock.addTag("$entityBlockFromTNT");
+      if (collideWithEntities) eBlock.triggerEvent("collision");
+      if (despawnTimer) eBlock.triggerEvent("despawn_timer");
+      if (placeWhenHitGround) blockMap.set(eBlock, block.permutation);
+      if (rotateWithVelocity) eBlock.triggerEvent("rotate");
+      eBlock.setVelocity(vel);
       block.setType(MinecraftBlockTypes.air);
     }
   });
 
   if (placeWhenHitGround) {
-    const replaceableBlocks = [
-      "minecraft:lava",
-      "minecraft:water",
-      "minecraft:air",
-    ];
     const options = new EntityDataDrivenTriggerEventOptions();
     options.eventTypes = ["hit_ground"];
     world.events.beforeDataDrivenEntityTriggerEvent.subscribe((evd) => {
@@ -141,14 +120,16 @@ if (enabled) {
           Math.floor(loc.z)
         )
       );
-      if (replaceableBlocks.includes(block.id)) {
+      if (isInList(replaceBlocks, block.id.replace("minecraft:", ""))) {
         block.setPermutation(perm);
-        entity.triggerEvent("despawn");
       } else if (dropWhenUnplaceable) {
-        const item = new ItemStack(Items.get(perm.type.id), 1);
-        entity.dimension.spawnItem(item, loc);
-        entity.triggerEvent("despawn");
+        if (getGamerules().dotiledrops) {
+          const item = new ItemStack(Items.get(perm.type.id), 1);
+          entity.dimension.spawnItem(item, loc);
+        }
       }
+      entity.triggerEvent("despawn");
     }, options);
   }
 }
+import "./block_launcher";

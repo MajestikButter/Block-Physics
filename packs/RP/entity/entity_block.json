@@ -19,11 +19,27 @@
       },
       "scripts": {
         "initialize": [
-          "v.x_rot = 0; v.z_rot = 0; v.rot_rate = 25; v.x_prev_pos = q.position(0); v.z_prev_pos = q.position(2);"
+          "v.x_rot = 0; v.z_rot = 0; v.rot_rate = 20;",
+          "v.x_prev_pos = q.position(0); v.y_prev_pos = q.position(1); v.z_prev_pos = q.position(2);",
+          "v.x_speed = 0; v.y_speed = 0; v.z_speed = 0; v.deceleration_rate = 0.05;",
+          "v.x_dir = 0; v.z_dir = 0;"
         ],
         "pre_animation": [
-          "v.z_rot = (v.z_rot) + (q.position(2) - v.z_prev_pos) * v.rot_rate; v.z_prev_pos = q.position(2);",
-          "v.x_rot = (v.x_rot) + (q.position(0) - v.x_prev_pos) * v.rot_rate; v.x_prev_pos = q.position(0);"
+          "v.y_delta = Math.abs(q.position(1) - v.y_prev_pos)/7.5; v.y_prev_pos = q.position(1);",
+          "v.y_lerped = Math.lerp(v.y_speed, 0, v.deceleration_rate/2);",
+          "v.y_speed = v.y_lerped > v.y_delta ? v.y_lerped : v.y_delta;",
+
+          "v.z_delta = q.position(2) - v.z_prev_pos; v.z_prev_pos = q.position(2);",
+          "v.z_dir = Math.abs(v.z_delta) > 0.01 ? v.z_delta : v.z_dir;",
+          "v.z_lerped = Math.lerp(v.z_speed, 0, v.deceleration_rate);",
+          "v.z_speed = Math.abs(v.z_lerped) > Math.abs(v.z_delta) ? v.z_lerped : v.z_delta; v.z_speed = v.z_speed + v.z_dir * v.y_speed;",
+          "v.z_rot = v.z_rot + v.z_speed * v.rot_rate;",
+
+          "v.x_delta = q.position(0) - v.x_prev_pos; v.x_prev_pos = q.position(0);",
+          "v.x_dir = Math.abs(v.x_delta) > 0.01 ? v.x_delta : v.x_dir;",
+          "v.x_lerped = Math.lerp(v.x_speed, 0, v.deceleration_rate);",
+          "v.x_speed = Math.abs(v.x_lerped) > Math.abs(v.x_delta) ? v.x_lerped : v.x_delta; v.x_speed = v.x_speed + v.x_dir * v.y_speed;",
+          "v.x_rot = v.x_rot + v.x_speed * v.rot_rate;"
         ],
         "animate": ["scale", { "rotate": "q.is_ignited" }]
       },
