@@ -67,4 +67,9 @@ export const explosionConfig: {
    * Modifies the horizontal launch velocity of blocks. (the horizontal velocity is multiplied by this value)
    */
   horizontalVelocityModifier: number;
+
+  /**
+   * Determines the minimum amount of entity blocks to spawn per explosion during a tick before continuing on the next tick.
+   */
+  minBlocksToSpawnPerTick: number;
 };

@@ -25,9 +25,9 @@
           "v.x_dir = 0; v.z_dir = 0;"
         ],
         "pre_animation": [
-          "v.y_delta = Math.abs(q.position(1) - v.y_prev_pos)/7.5; v.y_prev_pos = q.position(1);",
+          "v.y_delta = Math.abs(q.position(1) - v.y_prev_pos); v.y_prev_pos = q.position(1);",
           "v.y_lerped = Math.lerp(v.y_speed, 0, v.deceleration_rate/2);",
-          "v.y_speed = v.y_lerped > v.y_delta ? v.y_lerped : v.y_delta;",
+          "v.y_speed = v.y_lerped > v.y_delta/7.5 ? v.y_lerped : v.y_delta/7.5;",
 
           "v.z_delta = q.position(2) - v.z_prev_pos; v.z_prev_pos = q.position(2);",
           "v.z_dir = Math.abs(v.z_delta) > 0.01 ? v.z_delta : v.z_dir;",
@@ -41,7 +41,8 @@
           "v.x_speed = Math.abs(v.x_lerped) > Math.abs(v.x_delta) ? v.x_lerped : v.x_delta; v.x_speed = v.x_speed + v.x_dir * v.y_speed;",
           "v.x_rot = v.x_rot + v.x_speed * v.rot_rate;"
         ],
-        "animate": ["scale", { "rotate": "q.is_ignited" }]
+        "animate": ["scale", { "rotate": "q.is_ignited" }],
+        "should_update_bones_and_effects_offscreen": "1"
       },
       "enable_attachables": true
     }

@@ -54,7 +54,8 @@
               "moduleUUID": "b8622f43-a353-4f04-ba84-d9f4f226af90",
               "modules": [
                 "mojang-minecraft",
-                "mojang-minecraft-ui"
+                "mojang-minecraft-ui",
+                "mojang-gametest"
               ],
               "outfile": "BP/scripts/index.js"
             }

@@ -63,8 +63,19 @@ export function isInList(list: string[], str: string) {
   );
 }
 
-export function getGamerules() {
-  return JSON.parse(overworld.runCommand("gamerule").details);
+export function runCommand(
+  cmd: string,
+  executor: { runCommand(cmd: string): any }
+) {
+  try {
+    return { result: executor.runCommand(cmd), error: false };
+  } catch (error) {
+    return { result: JSON.parse(error), error: true };
+  }
+}
+
+export function getGamerules(): { [gamerule: string]: number | boolean } {
+  return JSON.parse(runCommand("gamerule", overworld).result.details);
 }
 
 export function sendMessage(plr: Player, msg: string) {

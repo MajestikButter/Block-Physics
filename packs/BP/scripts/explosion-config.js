@@ -47,7 +47,31 @@ export const explosionConfig = {
   /**
    * Determines what blocks to ignore, this is helpful for ignoring any blocks that may have issues when being placed down.
    */
-  ignoreBlocks: ["tnt", "*_door", "bed", "frame", "glowing_frame", "*_double_slab", "*_double_cut_copper_slab", "stonecutter"],
+  ignoreBlocks: [
+    "tnt",
+    "*_door",
+    "bed",
+    "frame",
+    "glowing_frame",
+    "*_double_slab",
+    "*_double_cut_copper_slab",
+    "stonecutter",
+    "tallgras",
+    "red_flower",
+    "yellow_flower",
+    "brown_mushroom",
+    "red_mushroom",
+    "reeds",
+    "carrots",
+    "wheat",
+    "potatoes",
+    "beetroot",
+    "pumpkin_stem",
+    "melon_stem",
+    "nether_wart",
+    "*_button",
+    "*_pressure_plate",
+  ],
 
   /**
    * Determines what blocks to allow blocks to replace when being placed.
@@ -67,5 +91,10 @@ export const explosionConfig = {
   /**
    * Modifies the horizontal launch velocity of blocks. (the horizontal velocity is multiplied by this value)
    */
-  horizontalVelocityModifier: 0.6,
+  horizontalVelocityModifier: 1.6,
+
+  /**
+   * Determines the minimum amount of entity blocks to spawn per explosion during a tick before continuing on the next tick.
+   */
+  minBlocksToSpawnPerTick: 15,
 };
