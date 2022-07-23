@@ -1,0 +1,56 @@
+{
+  "format_version": "1.19.0",
+  "minecraft:client_entity": {
+    "description": {
+      "identifier": "bp:ragdoll_zombie",
+      "materials": {
+        "default": "entity_alphatest"
+      },
+      "textures": {
+        "default": "textures/entity/zombie/zombie"
+      },
+      "geometry": {
+        "default": "geometry.zombie.v1.8"
+      },
+      "animations": {
+        "ragdoll": "animation.ragdoll.zombie"
+      },
+      "scripts": {
+        "initialize": [
+          "v.x_prev_pos = q.position(0); v.y_prev_pos = q.position(1); v.z_prev_pos = q.position(2);",
+          "v.body_x = 0; v.body_y = 0; v.body_z = 0;",
+          "v.x_unit = 0; v.y_unit = 0; v.z_unit = 0;",
+          "v.todegrees = 180/math.pi;"
+        ],
+        "pre_animation": [
+          "v.x_delta = q.position(0) - v.x_prev_pos; v.x_prev_pos = q.position(0);",
+          "v.y_delta = q.position(1) - v.y_prev_pos; v.y_prev_pos = q.position(1);",
+          "v.z_delta = q.position(2) - v.z_prev_pos; v.z_prev_pos = q.position(2);",
+
+          "v.mag = Math.sqrt(Math.pow(v.x_delta, 2) + Math.pow(v.y_delta, 2) + Math.pow(v.z_delta, 2));",
+          "v.x_unit = v.mag > 0.05 ? v.x_delta / v.mag : v.x_unit;",
+          "v.y_unit = v.mag > 0.05 ? v.y_delta / v.mag : v.y_unit;",
+          "v.z_unit = v.mag > 0.05 ? v.z_delta / v.mag : v.z_unit;",
+
+
+          "v.a = Math.acos(v.x_unit);",
+          "v.b = Math.acos(v.y_unit);",
+          "v.c = Math.acos(v.z_unit);",
+
+          "v.rx_unit = v.x_unit * Math.cos(v.c) + v.y_unit * Math.sin(v.c);",
+          "v.ry_unit = v.x_unit * Math.sin(v.c) + v.y_unit * Math.cos(v.c);",
+          "v.rz_unit = v.z_unit;",
+          
+          // "v.rx_unit = v.x_unit;",
+          // "v.ry_unit = v.y_unit * Math.cos(v.b) - v.z_unit * Math.sin(v.b);",
+          // "v.rz_unit = v.y_unit * Math.sin(v.b) + v.z_unit * Math.cos(v.b);",
+
+          "v.body_x = v.mag * 30;",
+          "v.body_y = math.atan2(v.rx_unit, v.rz_unit);"
+        ],
+        "animate": ["ragdoll"]
+      },
+      "render_controllers": ["controller.render.default"]
+    }
+  }
+}

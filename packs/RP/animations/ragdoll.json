@@ -1,0 +1,14 @@
+{
+  "format_version": "1.19.0",
+  "animations": {
+    "animation.ragdoll.zombie": {
+      "loop": true,
+      "bones": {
+        "waist": {
+          "position": [0, -12, 0],
+          "rotation": [0, "v.body_y", 0]
+        }
+      }
+    }
+  }
+}

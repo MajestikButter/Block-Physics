@@ -1,0 +1,45 @@
+{
+  "format_version": "1.19.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "bp:ragdoll_zombie",
+      "is_summonable": true,
+      "is_spawnable": false
+    },
+    "component_groups": {
+      "despawn": { "minecraft:instant_despawn": {} }
+    },
+    "components": {
+      "minecraft:physics": {},
+      "minecraft:collision_box": {
+        "height": 0.9,
+        "width": 0.9
+      },
+      "minecraft:custom_hit_test": {
+        "hitboxes": [
+          {
+            "width": 0,
+            "height": 0,
+            "pivot": [0, 100, 0]
+          }
+        ]
+      },
+      "minecraft:damage_sensor": {
+        "triggers": [
+          {
+            "deals_damage": false
+          }
+        ]
+      },
+      "minecraft:timer": {
+        "time": 15,
+        "time_down_event": {
+          "event": "despawn"
+        }
+      }
+    },
+    "events": {
+      "despawn": { "add": { "component_groups": ["despawn"] } }
+    }
+  }
+}
